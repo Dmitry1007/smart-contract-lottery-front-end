@@ -36,5 +36,23 @@ export default function LotteryEntrance() {
         }
     }, [isWeb3Enabled])
 
-    return <>Lottery Entrance Fee: {ethers.utils.formatUnits(entranceFee, "ether")} ETH</>
+    return (
+        <>
+            {lotteryAddress ? (
+                <>
+                    {" "}
+                    <button
+                        onClick={async function () {
+                            await enterLottery()
+                        }}
+                    >
+                        Enter Lottery
+                    </button>{" "}
+                    Lottery Entrance Fee: {ethers.utils.formatUnits(entranceFee, "ether")} ETH{" "}
+                </>
+            ) : (
+                <>No Lottery Address</>
+            )}
+        </>
+    )
 }
