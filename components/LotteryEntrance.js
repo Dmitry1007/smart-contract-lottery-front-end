@@ -1,9 +1,12 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useWeb3Contract } from "react-moralis"
 import { useMoralis } from "react-moralis"
 import { abi, contractAddresses } from "../constants"
+import { ethers } from "ethers"
 
 export default function LotteryEntrance() {
+    const [entranceFee, setEntranceFee] = useState("0")
+
     const { chainId: chainIdHex, isWeb3Enabled } = useMoralis()
     const chainId = parseInt(chainIdHex)
     const lotteryAddress = chainId in contractAddresses ? contractAddresses[chainId][0] : null
@@ -26,12 +29,12 @@ export default function LotteryEntrance() {
     useEffect(() => {
         if (isWeb3Enabled) {
             async function updateUI() {
-                const entranceFeeFromContract = await getEntranceFee()
-                console.log("entranceFee ", entranceFeeFromContract)
+                const entranceFeeFromContract = (await getEntranceFee()).toString()
+                setEntranceFee(ethers.utils.formatUnits(entranceFeeFromContract, "ether"))
             }
             updateUI()
         }
     }, [isWeb3Enabled])
 
-    return <>Lottery Entrance</>
+    return <>Lottery Entrance Fee: {entranceFee} ETH</>
 }
