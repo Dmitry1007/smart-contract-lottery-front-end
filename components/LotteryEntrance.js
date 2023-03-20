@@ -11,13 +11,13 @@ export default function LotteryEntrance() {
     const chainId = parseInt(chainIdHex)
     const lotteryAddress = chainId in contractAddresses ? contractAddresses[chainId][0] : null
 
-    // const { runContractFunction: enterLottery } = useWeb3Contract({
-    //     abi: abi,
-    //     contractAddress: lotteryAddress,
-    //     functionName: "enterLottery" ,
-    //     params: {},
-    //     msgValue: ,
-    // })
+    const { runContractFunction: enterLottery } = useWeb3Contract({
+        abi: abi,
+        contractAddress: lotteryAddress,
+        functionName: "enterLottery",
+        params: {},
+        msgValue: entranceFee,
+    })
 
     const { runContractFunction: getEntranceFee } = useWeb3Contract({
         abi: abi,
@@ -30,11 +30,11 @@ export default function LotteryEntrance() {
         if (isWeb3Enabled) {
             async function updateUI() {
                 const entranceFeeFromContract = (await getEntranceFee()).toString()
-                setEntranceFee(ethers.utils.formatUnits(entranceFeeFromContract, "ether"))
+                setEntranceFee(entranceFeeFromContract)
             }
             updateUI()
         }
     }, [isWeb3Enabled])
 
-    return <>Lottery Entrance Fee: {entranceFee} ETH</>
+    return <>Lottery Entrance Fee: {ethers.utils.formatUnits(entranceFee, "ether")} ETH</>
 }
