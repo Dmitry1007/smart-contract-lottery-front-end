@@ -10,6 +10,7 @@ export default function LotteryEntrance() {
     const [numPlayers, setNumPlayers] = useState()
     const [recentWinner, setRecentWinner] = useState()
     const { chainId: chainIdHex, isWeb3Enabled } = useMoralis()
+
     const chainId = parseInt(chainIdHex)
     const lotteryAddress = chainId in contractAddresses ? contractAddresses[chainId][0] : null
 
@@ -76,7 +77,7 @@ export default function LotteryEntrance() {
     }
 
     return (
-        <>
+        <div>
             {lotteryAddress ? (
                 <>
                     <button
@@ -95,6 +96,6 @@ export default function LotteryEntrance() {
             ) : (
                 <>No Lottery Address</>
             )}
-        </>
+        </div>
     )
 }
