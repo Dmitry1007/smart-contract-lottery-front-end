@@ -99,8 +99,11 @@ export default function LotteryEntrance() {
                             theme="outline"
                         />
                     )}
-                    Lottery Entrance Fee: {ethers.utils.formatUnits(entranceFee, "ether")} ETH Number of Players:{" "}
-                    {numPlayers} Recent Winner: {recentWinner}
+                    <div className="pt-5">
+                        Lottery Entrance Fee: {ethers.utils.formatUnits(entranceFee, "ether")} ETH
+                    </div>
+                    <div>Number of Players: {numPlayers}</div>
+                    <div>Recent Winner: {recentWinner}</div>
                 </>
             ) : (
                 <>No Lottery Address</>
