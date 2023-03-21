@@ -44,16 +44,17 @@ export default function LotteryEntrance() {
         params: {},
     })
 
+    async function updateUI() {
+        const entranceFeeFromContract = (await getEntranceFee()).toString()
+        const numberOfPlayersFromContract = (await getNumberOfPlayers()).toString()
+        const recentWinnerFromContract = (await getRecentWinner()).toString()
+        setEntranceFee(entranceFeeFromContract)
+        setNumPlayers(numberOfPlayersFromContract)
+        setRecentWinner(recentWinnerFromContract)
+    }
+
     useEffect(() => {
         if (isWeb3Enabled) {
-            async function updateUI() {
-                const entranceFeeFromContract = (await getEntranceFee()).toString()
-                const numberOfPlayersFromContract = (await getNumberOfPlayers()).toString()
-                const recentWinnerFromContract = (await getRecentWinner()).toString()
-                setEntranceFee(entranceFeeFromContract)
-                setNumPlayers(numberOfPlayersFromContract)
-                setRecentWinner(recentWinnerFromContract)
-            }
             updateUI()
         }
     }, [isWeb3Enabled])
@@ -61,6 +62,7 @@ export default function LotteryEntrance() {
     const handleSuccess = async function (tx) {
         await tx.wait(1)
         handleNewNotification(tx)
+        updateUI()
     }
 
     const handleNewNotification = function () {
